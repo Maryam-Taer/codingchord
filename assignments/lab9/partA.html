@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>Lab9 / PartA</title>
+
+</head>
+<style>
+    body {
+        background-image: url('images/giphy (2).gif');
+    }
+
+    #text {
+        background-color: rgb(243, 229, 149);
+        border: 2px solid black;
+        padding: 12px 20px;
+        ;
+    }
+
+    #menu {
+        top: 50%;
+        left: 50%;
+    }
+</style>
+
+<body>
+    <div id="menu">
+        <h3 style="color: white;">How many buttons to create?</h3><br>
+        <input type="text" id="text" name="button"><br><br>
+        <input type="button" id="btn" value="Go!" onclick=check_validity()>
+        <p id="warning"></p>
+
+        <script>
+            let div = document.getElementById('menu');
+            let text = document.getElementById("text");
+            let button = document.getElementById("btn");
+            let warning = document.getElementById("warning");
+
+            // -------------------------------------------------- Calculating the available screen size --------------------------------------------
+            function screen_size() {
+                height = window.innerHeight - 5 * 16;
+                width = window.innerWidth - 10 * 16;
+                return [height, width]
+            }
+
+            // --------------------------------------------------------- Generating random color ---------------------------------------------------
+            function button_color() {
+                let A = Math.random() * 256;
+                let B = Math.random() * 256;
+                let C = Math.random() * 256;
+                random_color = "rgb(" + A + "," + B + "," + C + ")";
+                return random_color
+            }
+
+            // -------------------------------------------------- Creating buttons through object cuonstructor --------------------------------------
+            function create_button(button, color, height, width, border) {
+                this.btn = document.createElement(button);
+                this.btn.style.width = width;
+                this.btn.style.height = height;
+                this.btn.style.background = color;
+                this.btn.style.border = border;
+                document.body.appendChild(this.btn);
+
+                this.random_motion = function () {
+                    this.btn.style.position = 'absolute';
+                    let screen = screen_size();
+                    this.btn.style.top = Math.random() * screen[0] + 'px';
+                    this.btn.style.left = Math.random() * screen[1] + 'px';
+                }
+            }
+            // ---------------------------------------------------- Gnerating the buttons based on the input ----------------------------------------
+            function generate_button() {
+                for (let i = 0; i < text.value; i++) {
+                    let color = button_color();
+                    let btn = new create_button('button', color, '5em', '10em', '4px solid black');
+                    btn.random_motion();
+                    setInterval(function () { btn.random_motion() }, 2000)
+
+                }
+
+            }
+
+            // ------------------------------------------------------------ Checking input validation ------------------------------------------------
+            function check_validity() {
+                if (parseInt(text.value) >= 5 && parseInt(text.value) <= 100) {
+                    div.style.display = 'none';
+                    generate_button();
+                }
+                else {
+                    alert('Invalid entry! Please enter a number between 5 to 100.');
+                }
+            }
+
+
+        </script>
+
+</body>
+
+</html>
