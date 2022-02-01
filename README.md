@@ -1,2 +1,1 @@
-Created By:<br/>
-## Maryam Taer - A01187827
+Simple HTML button clicking game
